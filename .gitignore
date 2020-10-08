@@ -17,6 +17,6 @@
 /Essentials/usermap.csv
 
 # Build files
-target/
+.gradle/
 jars/
-out/
+build/

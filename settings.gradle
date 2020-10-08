@@ -1,0 +1,36 @@
+rootProject.name = 'EssentialsXParent'
+
+include(':EssentialsX')
+project(':EssentialsX').projectDir = file('Essentials')
+
+// Modules
+include(':EssentialsXAntiBuild')
+project(':EssentialsXAntiBuild').projectDir = file('EssentialsAntiBuild')
+
+include(':EssentialsXChat')
+project(':EssentialsXChat').projectDir = file('EssentialsChat')
+
+include(':EssentialsXGeoIP')
+project(':EssentialsXGeoIP').projectDir = file('EssentialsGeoIP')
+
+include(':EssentialsXProtect')
+project(':EssentialsXProtect').projectDir = file('EssentialsProtect')
+
+include(':EssentialsXSpawn')
+project(':EssentialsXSpawn').projectDir = file('EssentialsSpawn')
+
+include(':EssentialsXXMPP')
+project(':EssentialsXXMPP').projectDir = file('EssentialsXMPP')
+
+// Providers
+include(':BaseProviders')
+project(':BaseProviders').projectDir = file('providers/BaseProviders')
+
+include(':NMSReflectionProvider')
+project(':NMSReflectionProvider').projectDir = file('providers/NMSReflectionProvider')
+
+include(':PaperProvider')
+project(':PaperProvider').projectDir = file('providers/PaperProvider')
+
+include(':1_8Provider')
+project(':1_8Provider').projectDir = file('providers/1_8Provider')
