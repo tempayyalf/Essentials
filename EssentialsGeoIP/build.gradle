@@ -2,6 +2,6 @@ apply from: '../shadow.gradle'
 
 dependencies {
     compileOnly project(':EssentialsX')
-    implementation 'com.maxmind.geoip2:geoip2:2.12.0'
-    implementation 'javatar:javatar:2.5'
+    shade 'com.maxmind.geoip2:geoip2:2.12.0'
+    shade 'javatar:javatar:2.5'
 }

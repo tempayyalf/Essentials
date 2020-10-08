@@ -1,13 +1,14 @@
-apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: "com.github.johnrengelman.shadow"
 
-artifacts {
-    tasks.shadowJar.outputs.files.each {
-        archives(it) {
-            builtBy shadowJar
-        }
-    }
+configurations {
+    shade
+    api.extendsFrom(shade)
 }
 
 shadowJar {
-    
+    configurations = [project.configurations.shade]
+}
+
+artifacts {
+    archives shadowJar
 }

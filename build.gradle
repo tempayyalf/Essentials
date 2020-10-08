@@ -1,8 +1,11 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 plugins {
     id 'org.ajoberstar.grgit' version '4.1.0'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'java'
 }
+
+import org.apache.tools.ant.filters.ReplaceTokens
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
 
 allprojects {
     group = 'net.ess3'
@@ -26,6 +29,23 @@ ext {
     GIT_DEPTH = commitsSinceLastTag()
 }
 
+
+
+artifacts {
+    tasks.shadowJar.outputs.files.each {
+        archives(it) {
+            builtBy shadowJar
+        }
+    }
+}
+
+
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+    target = tasks.shadowJar
+}
+
+tasks.shadowJar.dependsOn tasks.relocateShadowJar
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
@@ -44,8 +64,18 @@ subprojects {
         testImplementation 'org.mockito:mockito-core:3.2.0'
 
         if (project.name != "1_8Provider" && project.name != "PaperProvider" && project.name != "NMSReflectionProvider") { // These providers use their own bukkit versions
-            compileOnly 'org.spigotmc:spigot-api:1.16.3-R0.1-SNAPSHOT'
-            testCompileOnly 'org.spigotmc:spigot-api:1.16.3-R0.1-SNAPSHOT'
+            api 'org.spigotmc:spigot-api:1.16.3-R0.1-SNAPSHOT'
+        }
+    }
+
+    buildscript {
+        repositories {
+            maven {
+                url "https://plugins.gradle.org/m2/"
+            }
+        }
+        dependencies {
+            classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
         }
     }
 
@@ -54,16 +84,9 @@ subprojects {
                 endToken: '}', tokens: ["full.version": "${version}.${GIT_DEPTH}".toString()])
     }
 
-    buildscript {
-        repositories {
-            jcenter()
-        }
-        dependencies {
-            classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
-        }
-    }
-
     sourceCompatibility = '1.8'
+    compileJava.options.encoding = 'UTF-8'
+
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
     }
@@ -79,10 +102,6 @@ def outputTasks() {
 }
 
 task copyToJars(type: Copy) {
-    from(project(":EssentialsX").sourceSets.main.output.resourcesDir) {
-        exclude 'plugin.yml'
-    }
-
     outputTasks().forEach {
         println it
         from(it.outputs.files)
@@ -95,10 +114,10 @@ task copyToJars(type: Copy) {
 
 copyToJars.dependsOn tasks.findByPath(":EssentialsX:processResources")
 outputTasks().forEach { copyToJars.dependsOn it }
-
-task build() {}
+tasks.build.dependsOn tasks.shadowJar
 build.dependsOn copyToJars
+compileJava.options.encoding = 'UTF-8'
 
-task clean() {
-    delete file('jars')
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
