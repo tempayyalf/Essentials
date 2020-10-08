@@ -7,10 +7,10 @@ dependencies {
     shade 'io.papermc:paperlib:1.0.6-SNAPSHOT'
 
     // Providers
-    implementation project(':BaseProviders')
-    implementation project(':PaperProvider')
-    api project(':NMSReflectionProvider')
-    api project(':1_8Provider')
+    shade project(':BaseProviders')
+    shade project(':PaperProvider')
+    shade project(':NMSReflectionProvider')
+    shade project(':1_8Provider')
 }
 
 shadowJar {
