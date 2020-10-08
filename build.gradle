@@ -29,8 +29,6 @@ ext {
     GIT_DEPTH = commitsSinceLastTag()
 }
 
-
-
 artifacts {
     tasks.shadowJar.outputs.files.each {
         archives(it) {
@@ -38,7 +36,6 @@ artifacts {
         }
     }
 }
-
 
 task relocateShadowJar(type: ConfigureShadowRelocation) {
     target = tasks.shadowJar
@@ -112,12 +109,18 @@ task copyToJars(type: Copy) {
     into file('jars')
 }
 
-copyToJars.dependsOn tasks.findByPath(":EssentialsX:processResources")
-outputTasks().forEach { copyToJars.dependsOn it }
-tasks.build.dependsOn tasks.shadowJar
-build.dependsOn copyToJars
-compileJava.options.encoding = 'UTF-8'
+task cleanJars() {
+    delete file('jars')
+}
 
+build.dependsOn copyToJars
+clean.dependsOn cleanJars
+copyToJars.dependsOn tasks.findByPath(":EssentialsX:processResources")
+tasks.build.dependsOn tasks.shadowJar
+
+outputTasks().forEach { copyToJars.dependsOn it }
+
+compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
