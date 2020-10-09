@@ -1,5 +1,7 @@
 package com.earth2me.essentials.textreader;
 
+import org.bukkit.ChatColor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -66,7 +68,7 @@ public class BookPager {
                     forcePageEnd = true;
                 }
 
-                if (length >= charMax || (letter == '\u00a7' && length + 1 >= charMax)) {
+                if (length >= charMax || (letter == ChatColor.COLOR_CHAR && length + 1 >= charMax)) {
                     int pos = pointer;
                     int rollback = 0;
                     while (pos > start && pageLine.charAt(pos) != ' ' && pageLine.charAt(pos) != "\n".charAt(0)) {
@@ -92,7 +94,7 @@ public class BookPager {
 
                 pageLength++;
 
-                if (letter == '\u00a7' && pointer + 1 < lineLength) {
+                if (letter == ChatColor.COLOR_CHAR && pointer + 1 < lineLength) {
                     final char nextLetter = pageLine.charAt(pointer + 1);
                     if (nextLetter == 'l' || nextLetter == 'L') {
                         weight = 1.25;

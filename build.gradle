@@ -27,6 +27,9 @@ def commitsSinceLastTag() {
 ext {
     GIT_COMMIT = grgit.head().abbreviatedId
     GIT_DEPTH = commitsSinceLastTag()
+
+    checkstyleVersion = '8.36.2'
+    spigotVersion = '1.16.3-R0.1-SNAPSHOT'
 }
 
 artifacts {
@@ -46,6 +49,20 @@ tasks.shadowJar.dependsOn tasks.relocateShadowJar
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
+    apply plugin: 'checkstyle'
+
+    checkstyle {
+        toolVersion = "${checkstyleVersion}"
+        showViolations = true
+        configFile = rootProject.file('.checkstyle/checkstyle.xml')
+        configProperties = ["checkstyle.suppressions.file": rootProject.file('.checkstyle/suppressions.xml')]
+    }
+
+    checkstyleMain {
+        source = sourceSets.main.allSource
+    }
+
+    tasks.build.dependsOn tasks.checkstyleMain
 
     repositories {
         mavenLocal()
@@ -61,7 +78,7 @@ subprojects {
         testImplementation 'org.mockito:mockito-core:3.2.0'
 
         if (project.name != "1_8Provider" && project.name != "PaperProvider" && project.name != "NMSReflectionProvider") { // These providers use their own bukkit versions
-            api 'org.spigotmc:spigot-api:1.16.3-R0.1-SNAPSHOT'
+            api "org.spigotmc:spigot-api:${spigotVersion}"
         }
     }
 

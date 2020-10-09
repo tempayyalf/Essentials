@@ -16,9 +16,9 @@ public final class FormatUtil {
     private static final Set<ChatColor> FORMATS = EnumSet.of(ChatColor.BOLD, ChatColor.STRIKETHROUGH, ChatColor.UNDERLINE, ChatColor.ITALIC, ChatColor.RESET);
     private static final Set<ChatColor> MAGIC = EnumSet.of(ChatColor.MAGIC);
     //Vanilla patterns used to strip existing formats
-    private static final Pattern STRIP_ALL_PATTERN = Pattern.compile("\u00a7+([0-9a-fk-orA-FK-OR])");
+    private static final Pattern STRIP_ALL_PATTERN = Pattern.compile(ChatColor.COLOR_CHAR + "+([0-9a-fk-orA-FK-OR])");
     //Pattern used to strip md_5 legacy hex hack
-    private static final Pattern STRIP_RGB_PATTERN = Pattern.compile("\u00a7x((?:\u00a7[0-9a-fA-F]){6})");
+    private static final Pattern STRIP_RGB_PATTERN = Pattern.compile(ChatColor.COLOR_CHAR + "x((?:" + ChatColor.COLOR_CHAR + "[0-9a-fA-F]){6})");
     //Essentials '&' convention colour codes
     private static final Pattern REPLACE_ALL_PATTERN = Pattern.compile("(&)?&([0-9a-fk-orA-FK-OR])");
     private static final Pattern REPLACE_ALL_RGB_PATTERN = Pattern.compile("(&)?&#([0-9a-fA-F]{6})");
@@ -75,7 +75,7 @@ public final class FormatUtil {
                 final char code = legacyMatcher.group(2).toLowerCase(Locale.ROOT).charAt(0);
                 for (final ChatColor color : supported) {
                     if (color.getChar() == code) {
-                        legacyMatcher.appendReplacement(legacyBuilder, "\u00a7$2");
+                        legacyMatcher.appendReplacement(legacyBuilder, ChatColor.COLOR_CHAR + "$2");
                         continue legacyLoop;
                     }
                 }
@@ -122,9 +122,9 @@ public final class FormatUtil {
         }
         Color.decode("#" + hexColor);
         final StringBuilder assembledColorCode = new StringBuilder();
-        assembledColorCode.append("\u00a7x");
+        assembledColorCode.append(ChatColor.COLOR_CHAR + "x");
         for (final char curChar : hexColor.toCharArray()) {
-            assembledColorCode.append("\u00a7").append(curChar);
+            assembledColorCode.append(ChatColor.COLOR_CHAR).append(curChar);
         }
         return assembledColorCode.toString();
     }
@@ -159,7 +159,7 @@ public final class FormatUtil {
         final Matcher rgbMatcher = STRIP_RGB_PATTERN.matcher(message);
         final boolean rgb = user.isAuthorized(permBase + ".rgb");
         while (rgbMatcher.find()) {
-            final String code = rgbMatcher.group(1).replace("\u00a7", "");
+            final String code = rgbMatcher.group(1).replace(String.valueOf(ChatColor.COLOR_CHAR), "");
             if (rgb) {
                 rgbMatcher.appendReplacement(rgbBuilder, "&#" + code);
                 continue;
@@ -249,7 +249,7 @@ public final class FormatUtil {
     }
 
     public static String lastCode(final String input) {
-        final int pos = input.lastIndexOf('\u00a7');
+        final int pos = input.lastIndexOf(ChatColor.COLOR_CHAR);
         if (pos == -1 || (pos + 1) == input.length()) {
             return "";
         }

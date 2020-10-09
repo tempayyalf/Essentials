@@ -592,7 +592,9 @@ public class FakeServer implements Server {
             @Override
             public long getFirstPlayed() {
                 throw new UnsupportedOperationException("Not supported yet.");
-            }            @Override
+            }
+
+            @Override
             public void setOp(final boolean bln) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
@@ -714,9 +716,6 @@ public class FakeServer implements Server {
             public void setStatistic(final Statistic statistic, final EntityType entityType, final int newValue) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
-
-
-
         };
     }
 
@@ -848,7 +847,9 @@ public class FakeServer implements Server {
             @Override
             public void acceptConversationInput(final String input) {
                 throw new UnsupportedOperationException("Not supported yet.");
-            }            @Override
+            }
+
+            @Override
             public void setOp(final boolean value) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
@@ -872,9 +873,6 @@ public class FakeServer implements Server {
             public void sendRawMessage(final String message) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
-
-
-
         };
     }
 
