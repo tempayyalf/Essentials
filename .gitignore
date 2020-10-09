@@ -19,4 +19,5 @@
 # Build files
 .gradle/
 jars/
+out/
 build/
