@@ -1,6 +1,10 @@
-apply from: '../shadow.gradle'
-
 dependencies {
     compileOnly project(':EssentialsX')
-    shade 'org.igniterealtime.smack:smack:3.2.1'
+    implementation 'org.igniterealtime.smack:smack:3.2.1'
+}
+
+shadowJar {
+    dependencies {
+        include (dependency('org.igniterealtime.smack:smack'))
+    }
 }

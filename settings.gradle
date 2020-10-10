@@ -1,30 +1,22 @@
 rootProject.name = 'EssentialsXParent'
 
-include(':EssentialsX')
-project(':EssentialsX').projectDir = file('Essentials')
-
 // Modules
-include(':EssentialsXAntiBuild')
-project(':EssentialsXAntiBuild').projectDir = file('EssentialsAntiBuild')
-
-include(':EssentialsXChat')
-project(':EssentialsXChat').projectDir = file('EssentialsChat')
-
-include(':EssentialsXGeoIP')
-project(':EssentialsXGeoIP').projectDir = file('EssentialsGeoIP')
-
-include(':EssentialsXProtect')
-project(':EssentialsXProtect').projectDir = file('EssentialsProtect')
-
-include(':EssentialsXSpawn')
-project(':EssentialsXSpawn').projectDir = file('EssentialsSpawn')
-
-include(':EssentialsXXMPP')
-project(':EssentialsXXMPP').projectDir = file('EssentialsXMPP')
+[
+        "",
+        "AntiBuild",
+        "Chat",
+        "GeoIP",
+        "Protect",
+        "Spawn",
+        "XMPP",
+].each {
+    include(":EssentialsX$it")
+    project(":EssentialsX$it").projectDir = file("Essentials$it")
+}
 
 // Providers
-include(':BaseProviders')
-project(':BaseProviders').projectDir = file('providers/BaseProviders')
+include(':providers:BaseProviders')
+//project(':BaseProviders').projectDir = file('providers/BaseProviders')
 
 include(':NMSReflectionProvider')
 project(':NMSReflectionProvider').projectDir = file('providers/NMSReflectionProvider')

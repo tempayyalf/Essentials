@@ -1,4 +1,4 @@
 dependencies {
-    implementation project(':BaseProviders')
+    implementation project(':providers:BaseProviders')
     api 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
 }

@@ -1,18 +1,25 @@
-apply from: '../shadow.gradle'
-
 dependencies {
     compileOnly 'com.github.milkbowl:VaultAPI:1.7'
     compileOnly 'net.luckperms:api:5.0'
 
-    shade 'io.papermc:paperlib:1.0.6-SNAPSHOT'
+    api 'io.papermc:paperlib:1.0.6-SNAPSHOT'
 
     // Providers
-    shade project(':BaseProviders')
-    shade project(':PaperProvider')
-    shade project(':NMSReflectionProvider')
-    shade project(':1_8Provider')
+    api project(':providers:BaseProviders')
+    api project(':PaperProvider')
+    api project(':NMSReflectionProvider')
+    api(project(':1_8Provider')) {
+        exclude group: 'bukkit'
+    }
 }
 
 shadowJar {
+    dependencies {
+        include (dependency('io.papermc:paperlib'))
+        include (project(':providers:BaseProviders'))
+        include (project(':PaperProvider'))
+        include (project(':NMSReflectionProvider'))
+        include (project(':1_8Provider'))
+    }
     relocate 'io.papermc.lib', 'com.earth2me.essentials.paperlib'
 }
