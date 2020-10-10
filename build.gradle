@@ -4,7 +4,6 @@ plugins {
     id 'java'
 }
 
-
 import org.apache.tools.ant.filters.ReplaceTokens
 
 allprojects {
@@ -38,14 +37,6 @@ subprojects {
     apply plugin: 'checkstyle'
     apply plugin: 'com.github.johnrengelman.shadow'
 
-    checkstyle {
-        toolVersion = "${checkstyleVersion}"
-        showViolations = true
-        configDirectory.set(rootProject.file(".checkstyle"))
-    }
-
-    tasks.build.dependsOn tasks.checkstyleMain
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -69,10 +60,18 @@ subprojects {
         }
     }
 
+    // Version Injection
     processResources {
         filter(ReplaceTokens, beginToken: '${',
                 endToken: '}', tokens: ["full.version": "${version}.${GIT_DEPTH}".toString()])
     }
+
+    // Checkstyle
+    checkstyle {
+        toolVersion = "${checkstyleVersion}"
+        configDirectory.set(rootProject.file(".checkstyle"))
+    }
+    tasks.build.dependsOn tasks.checkstyleMain
 
     // Versioning & Encoding
     sourceCompatibility = '1.8'
