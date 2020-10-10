@@ -6,9 +6,9 @@ dependencies {
 
     // Providers
     api project(':providers:BaseProviders')
-    api project(':PaperProvider')
-    api project(':NMSReflectionProvider')
-    api(project(':1_8Provider')) {
+    api project(':providers:PaperProvider')
+    api project(':providers:NMSReflectionProvider')
+    api(project(':providers:1_8Provider')) {
         exclude group: 'bukkit'
     }
 }
@@ -17,9 +17,9 @@ shadowJar {
     dependencies {
         include (dependency('io.papermc:paperlib'))
         include (project(':providers:BaseProviders'))
-        include (project(':PaperProvider'))
-        include (project(':NMSReflectionProvider'))
-        include (project(':1_8Provider'))
+        include (project(':providers:PaperProvider'))
+        include (project(':providers:NMSReflectionProvider'))
+        include (project(':providers:1_8Provider'))
     }
     relocate 'io.papermc.lib', 'com.earth2me.essentials.paperlib'
 }

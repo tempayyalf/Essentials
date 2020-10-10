@@ -1,5 +1,5 @@
 dependencies {
-    api(project(':NMSReflectionProvider')) {
+    api(project(':providers:NMSReflectionProvider')) {
         exclude group: 'bukkit'
     }
 }

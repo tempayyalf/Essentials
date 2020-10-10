@@ -16,13 +16,6 @@ rootProject.name = 'EssentialsXParent'
 
 // Providers
 include(':providers:BaseProviders')
-//project(':BaseProviders').projectDir = file('providers/BaseProviders')
-
-include(':NMSReflectionProvider')
-project(':NMSReflectionProvider').projectDir = file('providers/NMSReflectionProvider')
-
-include(':PaperProvider')
-project(':PaperProvider').projectDir = file('providers/PaperProvider')
-
-include(':1_8Provider')
-project(':1_8Provider').projectDir = file('providers/1_8Provider')
+include(':providers:NMSReflectionProvider')
+include(':providers:PaperProvider')
+include(':providers:1_8Provider')
