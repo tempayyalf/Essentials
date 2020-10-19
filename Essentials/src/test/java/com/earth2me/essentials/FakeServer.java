@@ -765,6 +765,16 @@ public class FakeServer implements Server {
             }
 
             @Override
+            public void sendMessage(final UUID uuid, final String message) {
+                sendMessage(message);
+            }
+
+            @Override
+            public void sendMessage(final UUID uuid, final String[] messages) {
+                sendMessage(messages);
+            }
+
+            @Override
             public Server getServer() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
@@ -873,6 +883,12 @@ public class FakeServer implements Server {
             public void sendRawMessage(final String message) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
+
+            @Override
+            public void sendRawMessage(final UUID uuid, final String s) {
+
+            }
+
         };
     }
 
